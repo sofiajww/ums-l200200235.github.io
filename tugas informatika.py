@@ -67,4 +67,4 @@ class KuliahInformatikaFlow(FlowSpec):
         print("Selamat! Anda telah menyelesaikan semua tahapan kuliah.")
 
 if __name__ == '__main__':
-    KuliahInformatikaFlow()
+    KuliahInformatikaFlow().run()  # Tambahkan .run() untuk menjalankan flow
