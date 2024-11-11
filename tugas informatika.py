@@ -1,74 +1,70 @@
-class Mahasiswa:
-    def __init__(self, nama, nim):
-        self.nama = nama
-        self.nim = nim
-        self.spp_terbayar = False
-        self.absensi = 0
-        self.tugas = []
-        self.uts = None
-        self.uas = None
-        self.nilai_akhir = None
+from metaflow import FlowSpec, step
 
+class KuliahInformatikaFlow(FlowSpec):
+
+    @step
+    def start(self):
+        print("Memulai proses kuliah informatika.")
+        self.next(self.bayar_spp)
+    
+    @step
     def bayar_spp(self):
-        print(f"{self.nama} telah membayar SPP.")
-        self.spp_terbayar = True
+        print("Langkah 1: Bayar SPP.")
+        # Proses pembayaran SPP
+        self.status_pembayaran = "Lunas"
+        print(f"Status Pembayaran: {self.status_pembayaran}")
+        self.next(self.pilih_matakuliah)
 
-    def hadir_kuliah(self):
-        if self.spp_terbayar:
-            print(f"{self.nama} hadir dalam perkuliahan.")
-            self.absensi += 1
-        else:
-            print(f"{self.nama} belum membayar SPP, tidak dapat mengikuti kuliah.")
+    @step
+    def pilih_matakuliah(self):
+        print("Langkah 2: Pilih mata kuliah.")
+        # Proses pemilihan mata kuliah
+        self.matakuliah = ["Algoritma", "Struktur Data", "Basis Data", "Pemrograman Lanjut"]
+        print(f"Mata Kuliah yang diambil: {', '.join(self.matakuliah)}")
+        self.next(self.mengikuti_perkuliahan)
+    
+    @step
+    def mengikuti_perkuliahan(self):
+        print("Langkah 3: Mengikuti perkuliahan.")
+        # Simulasi mengikuti perkuliahan
+        self.kehadiran = {mk: "Hadir" for mk in self.matakuliah}
+        print(f"Kehadiran perkuliahan: {self.kehadiran}")
+        self.next(self.mengerjakan_tugas)
 
-    def kerjakan_tugas(self, nilai_tugas):
-        if self.spp_terbayar:
-            print(f"{self.nama} mengerjakan tugas dan mendapatkan nilai {nilai_tugas}.")
-            self.tugas.append(nilai_tugas)
-        else:
-            print(f"{self.nama} belum membayar SPP, tidak dapat mengerjakan tugas.")
+    @step
+    def mengerjakan_tugas(self):
+        print("Langkah 4: Mengerjakan tugas.")
+        # Simulasi pengerjaan tugas
+        self.nilai_tugas = {mk: 80 + (i * 5) for i, mk in enumerate(self.matakuliah)}  # Skor acak untuk setiap tugas
+        print(f"Nilai tugas: {self.nilai_tugas}")
+        self.next(self.ujian_akhir)
 
-    def ikut_uts(self, nilai):
-        if self.spp_terbayar:
-            print(f"{self.nama} mengikuti UTS dan mendapatkan nilai {nilai}.")
-            self.uts = nilai
-        else:
-            print(f"{self.nama} belum membayar SPP, tidak dapat mengikuti UTS.")
+    @step
+    def ujian_akhir(self):
+        print("Langkah 5: Mengikuti ujian akhir.")
+        # Simulasi mengikuti ujian akhir
+        self.nilai_ujian = {mk: 70 + (i * 10) for i, mk in enumerate(self.matakuliah)}  # Skor acak untuk ujian
+        print(f"Nilai ujian: {self.nilai_ujian}")
+        self.next(self.hitung_nilai_akhir)
 
-    def ikut_uas(self, nilai):
-        if self.spp_terbayar:
-            print(f"{self.nama} mengikuti UAS dan mendapatkan nilai {nilai}.")
-            self.uas = nilai
-        else:
-            print(f"{self.nama} belum membayar SPP, tidak dapat mengikuti UAS.")
-
+    @step
     def hitung_nilai_akhir(self):
-        if self.uts is not None and self.uas is not None and self.tugas:
-            rata_tugas = sum(self.tugas) / len(self.tugas)
-            self.nilai_akhir = (0.3 * rata_tugas) + (0.3 * self.uts) + (0.4 * self.uas)
-            print(f"Nilai akhir {self.nama} adalah: {self.nilai_akhir:.2f}")
-        else:
-            print(f"{self.nama} belum menyelesaikan semua komponen penilaian.")
+        print("Langkah 6: Menghitung nilai akhir.")
+        # Hitung nilai akhir berdasarkan nilai tugas dan ujian
+        self.nilai_akhir = {
+            mk: (self.nilai_tugas[mk] * 0.4) + (self.nilai_ujian[mk] * 0.6)
+            for mk in self.matakuliah
+        }
+        print(f"Nilai akhir: {self.nilai_akhir}")
+        self.next(self.selesai)
 
-    def status_kelulusan(self):
-        if self.nilai_akhir is not None:
-            if self.nilai_akhir >= 60:
-                print(f"{self.nama} dinyatakan lulus dengan nilai akhir {self.nilai_akhir:.2f}.")
-            else:
-                print(f"{self.nama} dinyatakan tidak lulus dengan nilai akhir {self.nilai_akhir:.2f}.")
-        else:
-            print("Nilai akhir belum dihitung.")
+    @step
+    def selesai(self):
+        print("Proses kuliah informatika selesai.")
+        print("Rekap nilai akhir:")
+        for mk, nilai in self.nilai_akhir.items():
+            print(f"{mk}: {nilai}")
+        print("Selamat! Anda telah menyelesaikan semua tahapan kuliah.")
 
-
-# Simulasi proses mengikuti kuliah
-mahasiswa1 = Mahasiswa("Sofi", "L200220235")
-
-# Langkah-langkah simulasi
-mahasiswa1.bayar_spp()
-mahasiswa1.hadir_kuliah()
-mahasiswa1.kerjakan_tugas(85)
-mahasiswa1.kerjakan_tugas(90)
-mahasiswa1.hadir_kuliah()
-mahasiswa1.ikut_uts(78)
-mahasiswa1.ikut_uas(88)
-mahasiswa1.hitung_nilai_akhir()
-mahasiswa1.status_kelulusan()
+if __name__ == '__main__':
+    KuliahInformatikaFlow()
