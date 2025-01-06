@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,25 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Clustering</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { color: #2c3e50; }
-        .cluster { margin-bottom: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f5f3; /* Light Beige */
+            color: #4a2c2a; /* Dark Brown */
+        }
+
+        h1, h2, h3 {
+            color: #800000; /* Maroon */
+        }
+
+        .cluster {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #c4a6a6; /* Light Maroon */
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <h1>Laporan Hasil Clustering</h1>
     <p>Data diproses dan dianalisis dengan metode TF-IDF dan algoritma KMeans untuk membuat 3, 4, dan 5 klaster.</p>
     <h2>Analisis</h2>
-    <div>
+    <div class="cluster">
         <h3>Hasil Clustering (3 Klaster)</h3>
         <p>Cluster 0: disertakan, ums, it22</p>
         <p>Cluster 1: disertakan, ums, it22</p>
         <p>Cluster 2: disertakan, ums, it22</p>
+    </div>
+    <div class="cluster">
         <h3>Hasil Clustering (4 Klaster)</h3>
         <p>Cluster 0: 10, 18, 19</p>
         <p>Cluster 1: 10, 18, 19</p>
         <p>Cluster 2: 10, 18, 19</p>
         <p>Cluster 3: 10, 18, 19</p>
+    </div>
+    <div class="cluster">
         <h3>Hasil Clustering (5 Klaster)</h3>
         <p>Cluster 0: satria, belom, gedungnya</p>
         <p>Cluster 1: satria, belom, gedungnya</p>
